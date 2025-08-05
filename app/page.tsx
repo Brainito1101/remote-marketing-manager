@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import Link from "next/link";
+import Image from "next/image";
 
 export default function RemoteMarketingManagerPage() {
   return (
@@ -15,8 +17,12 @@ export default function RemoteMarketingManagerPage() {
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-purple-600">🧠 Brainito</div>
-            <Badge className="bg-green-100 text-green-700 hover:bg-green-100">5-Day Free Trial</Badge>
+            <Link href="https://www.brainito.com/" legacyBehavior>
+            <a target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3">
+    <Image src="icon.png" alt="Logo" width={50} height={50} />
+    <span className="text-3xl font-bold text-purple-700">Brainito</span>
+  </a>
+            </Link>
           </div>
         </div>
       </header>

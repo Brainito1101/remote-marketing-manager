@@ -147,7 +147,7 @@ const handleSubmit = async (e) => {
 )}
                   <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
+                    <div className="pb-3">
                       <Label htmlFor="name" className="text-sm font-medium text-gray-700">
                         Full Name *
                       </Label>
@@ -159,7 +159,7 @@ const handleSubmit = async (e) => {
                         className="mt-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                       />
                     </div>
-                    <div>
+                    <div className="pb-3">
                       <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
                         Phone *
                       </Label>
@@ -173,7 +173,7 @@ const handleSubmit = async (e) => {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="pb-3">
                     <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                       Email *
                     </Label>
@@ -186,7 +186,7 @@ const handleSubmit = async (e) => {
                     />
                   </div>
 
-                  <div>
+                  <div className="pb-3">
                     <Label htmlFor="website" className="text-sm font-medium text-gray-700">
                       Website
                     </Label>

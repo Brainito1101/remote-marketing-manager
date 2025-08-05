@@ -1,5 +1,8 @@
+"use client"
+
 import { Check, Phone, Star, Shield, ArrowRight } from "lucide-react"
 
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,6 +14,52 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function RemoteMarketingManagerPage() {
+  const [showThankYou, setShowThankYou] = useState(false)
+  const [form, setForm] = useState({
+    full_name: '',
+    phone: '',
+    email: '',
+    website: '',
+    marketing_challenge: ''
+  })
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  const response = await fetch('https://ai.brainito.com/api/remote-manager/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(form)
+  })
+
+  if (response.ok) {
+    // Reset form
+    setForm({
+      full_name: '',
+      phone: '',
+      email: '',
+      website: '',
+      marketing_challenge: ''
+    });
+
+    // Show thank you message
+    setShowThankYou(true);
+
+    // Hide it after 5 seconds
+    setTimeout(() => {
+      setShowThankYou(false);
+    }, 10000);
+  } else {
+    alert("Submission failed.")
+  }
+}
+
+
+
   return (
     <div className="min-h-screen bg-white">
       {/* Simple Header */}
@@ -91,6 +140,12 @@ export default function RemoteMarketingManagerPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  {showThankYou && (
+  <div className="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded text-sm mb-4 text-center">
+    🎉 Thank you! Your growth plan request has been received.
+  </div>
+)}
+                  <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="name" className="text-sm font-medium text-gray-700">
@@ -98,7 +153,9 @@ export default function RemoteMarketingManagerPage() {
                       </Label>
                       <Input
                         id="name"
-                        placeholder="John Doe"
+                        name="full_name" onChange={handleChange}
+                        value={form.full_name}
+                        placeholder="Full Name" required
                         className="mt-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                       />
                     </div>
@@ -108,7 +165,9 @@ export default function RemoteMarketingManagerPage() {
                       </Label>
                       <Input
                         id="phone"
-                        placeholder="+1 (555) 123-4567"
+                        name="phone" type="number" onChange={handleChange}
+                        placeholder="Number" required
+                        value={form.phone}
                         className="mt-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                       />
                     </div>
@@ -120,8 +179,9 @@ export default function RemoteMarketingManagerPage() {
                     </Label>
                     <Input
                       id="email"
-                      type="email"
-                      placeholder="john@company.com"
+                      value={form.email}
+                      name="email" type="email" onChange={handleChange}
+                      placeholder="Email Address" required
                       className="mt-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                     />
                   </div>
@@ -131,27 +191,32 @@ export default function RemoteMarketingManagerPage() {
                       Website
                     </Label>
                     <Input
+                      value={form.website}
                       id="website"
                       placeholder="https://yourwebsite.com"
+                      name="website" type="url" onChange={handleChange} required
                       className="mt-1 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
                     />
                   </div>
 
-                  <div>
+                  <div className="pb-3">
                     <Label htmlFor="challenges" className="text-sm font-medium text-gray-700">
                       Biggest Marketing Challenge
                     </Label>
                     <Textarea
+                      value={form.marketing_challenge}
                       id="challenges"
+                      name="marketing_challenge" onChange={handleChange}
                       placeholder="e.g., Not getting enough leads, ads not converting..."
                       className="mt-1 min-h-[80px] border-gray-300 focus:border-purple-500 focus:ring-purple-500"
-                    />
+                    required/>
                   </div>
 
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg">
+                  <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg pt-2">
                     Get My Free Growth Plan
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
+                  </form>
 
                   <p className="text-xs text-gray-500 text-center">
                     <Shield className="w-3 h-3 inline mr-1" />
